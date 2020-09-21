@@ -1,0 +1,24 @@
+<launch>
+    <param name="use_sim_time" value="true" />
+    <node name="stageros" pkg="stage_ros" type="stageros" args="$(find tut_ibx0020)/worlds/test2.world" />
+    </node>
+        <group ns = "robot_0">
+            <node name="robot_reactive_a" pkg="ibx0020_control" type="ab" output="screen">
+        </group>
+        <group ns = "robot_1">
+            <node name="robot_reactive_b" pkg="ibx0020_control" type="ab">
+        </group>
+        <group ns = "robot_2">
+            <node name="robot_reactive_c" pkg="ibx0020_control" type="ab">
+        </group>
+        <group ns = "robot_3">
+            <node name="robot_reactive_d" pkg="ibx0020_control" type="ab">
+        </group>
+        <group ns = "robot_4">
+            <node name="robot_reactive_e" pkg="ibx0020_control" type="ab">
+        </group>
+        <group ns = "robot_reactive_5">
+            <node name="robot_reactive_f" pkg="ibx0020_control" type="ab" />
+            </node>
+        </group>
+</launch>

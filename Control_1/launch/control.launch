@@ -1,0 +1,28 @@
+<launch>
+<!--
+  <param name="Kp" value="0.0" type="double" />
+  <param name="Ka" value="0.0" type="double" />
+  <param name="Kb" value="0.0" type="double" />
+-->
+<!-- command line arguments of roslaunch -->
+<arg name="x" />
+<arg name="y" />
+<arg name="th" />
+
+<group>
+
+    <node name="stageros" pkg="stage_ros" type="stageros"
+    args="$(find tut_ibx0020)/worlds/test.world" />
+
+    <node name="ArbitraryNameOfControlNode" pkg="tut_ibx0020" type="control.py" output="screen">
+    <!-- setting ~x, ~y and ~th params from roslaunch arguments -->
+      <param name="x" value="$(arg x)" />
+      <param name="y" value="$(arg y)" />
+      <param name="th" value="$(arg th)" />
+    </node>
+
+    <node name="rqt_plot" pkg="rqt_plot" type="rqt_plot"
+    args="-e /cmd_vel/linear/x /cmd_vel/angular/z /p/data" />
+
+  </group>
+</launch>
