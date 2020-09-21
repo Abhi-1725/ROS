@@ -1,0 +1,28 @@
+<launch>
+    <env name="LIBGL_ALWAYS_SOFTWARE" value="true" /> 
+    <param name="use_sim_time" value="true" />
+
+    <node name="stageros" pkg="stage_ros" type="stageros" args="$(find tut_ibx0020)/worlds/test.world" >
+        <remap from="odom" to="odometry"/>
+        <remap from="base_pose_ground_truth" to="ground_truth"/>
+        <remap from="base_scan" to="laser"/>
+    </node>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="$(find ibx0020_control)/ABDPlanSim.rviz" />
+
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find ibx0020_control)/ABDSim.yaml" />
+
+    <node name="amcl" pkg="amcl" type="amcl" >
+        <remap from="scan" to="laser" />
+        <param name="use_map_topic" value="true" /> 
+    </node>
+
+    <node name="move_base" pkg="move_base" type="move_base" >
+        <rosparam file="$(find ibx0020_control)/costmap_common_params.yaml" command="load" ns="global_costmap" /> 
+        <rosparam file="$(find ibx0020_control)/costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find ibx0020_control)/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find ibx0020_control)/global_costmap_params.yaml" command="load" /> 
+        <rosparam file="$(find ibx0020_control)/base_local_planner_params.yaml" command="load" />
+    </node>
+
+</launch>

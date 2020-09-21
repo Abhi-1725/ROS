@@ -1,0 +1,23 @@
+<launch>
+
+    <param name="use_sim_time" value="true" />
+
+    <node name="stageros" pkg="stage_ros" type="stageros" args="$(find tut_ibx0020)/worlds/test.world" >
+        <remap from="odom" to="odometry"/>
+        <remap from="base_pose_ground_truth" to="ground_truth"/>
+        <remap from="base_scan" to="laser"/>
+    </node>
+
+    <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" args="$(find ibx0020_control)/ABDSim.yaml">
+        <remap from="scan" to="laser" />
+        <param name="xmin" value="-15.0"/>
+        <param name="ymin" value="-5.0"/>
+        <param name="xmax" value="15.0" />
+        <param name="ymax" value="25.0" />
+        <param name="delta" value="0.1"/>
+    </node>
+    
+    <node name="rviz" pkg="rviz" type="rviz" args="$(find ibx0020_control)/ABDSlamSim.rviz" />
+    
+</launch>
+    
